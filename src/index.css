@@ -32,3 +32,19 @@ code {
 }
 
 */
+
+.List {
+  /* background-color: ; */
+  /* border: 1px solid #d9dddd; */
+}
+
+.ListItemEven,
+.ListItemOdd {
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+}
+
+.ListItemEven {
+  /* background-color: #f8f8f0; */
+} 

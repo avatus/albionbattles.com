@@ -1,17 +1,13 @@
 import React, { useState } from 'react'
 import Drawer from 'rsuite/lib/Drawer'
-import Button from 'rsuite/lib/Button'
-import { ITEM_ICON_URL } from '../utils/constants'
-import { unwrapResult } from '@reduxjs/toolkit'
-import List from 'rsuite/lib/List'
+import Item from './Item'
+import { FixedSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 import SelectPicker from 'rsuite/lib/SelectPicker'
-import { useDispatch } from 'react-redux'
 import FlexboxGrid from 'rsuite/lib/FlexboxGrid'
-// import Placeholder from 'rsuite/lib/Placeholder'
 import Input from 'rsuite/lib/Input'
 import InputGroup from 'rsuite/lib/InputGroup'
 import Icon from 'rsuite/lib/Icon'
-import * as ACTIONS from '../reducer/buildReducer'
 
 const tiers = [
     { value: 'T1', label: 'Tier I' },
@@ -26,55 +22,20 @@ const tiers = [
 
 const ItemDrawer = ({ open, name, handleClose }) => {
     const [search, setSearch] = useState("")
-    const [fetchingItem, setFetchingItem] = useState("cheese")
-    const [selecting, setSelecting] = useState(false)
     const [error, setError] = useState("")
-    const [tier, setTier] = useState("T4")
+    const [tier, setTier] = useState("T7")
     const items = require(`../utils/${name}_small.json`).filter(i => tier !== null ? i.uniqueName.includes(tier) : true).filter(i => i.name.toLowerCase().includes(search.toLowerCase()))
-    const dispatch = useDispatch()
+    // TODO: app category type to all my json files with the api to add filter by category
 
-    const renderListItem = item => {
-
-        const selectItem = () => {
-            setFetchingItem(item.uniqueName)
-            setSelecting(true)
-            setError("")
-            dispatch(ACTIONS.fetchItemData({item, itemType: name})).then(unwrapResult)
-                .then(res => {
-                    setFetchingItem("")
-                    setSelecting(false)
-                    handleClose()
-                })
-                .catch(err => {
-                    setFetchingItem("")
-                    setSelecting(false)
-                    setError("Error selecting item.")
-                })
-        }
-
-        return (
-            <List.Item
-                key={item.uniqueName}
-            >
-                <FlexboxGrid align="middle">
-                    <FlexboxGrid.Item style={{ marginRight: "1rem" }}>
-                        <img
-                            src={`${ITEM_ICON_URL}${item.uniqueName}?size=50`}
-                            alt={item.name}
-                        />
-                    </FlexboxGrid.Item>
-                    <FlexboxGrid.Item>
-                        {item.name}
-                    </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginLeft: "auto" }}>
-                        <Button 
-                            loading={item.uniqueName === fetchingItem}
-                            disabled={selecting}
-                            onClick={selectItem}>Select</Button>
-                    </FlexboxGrid.Item>
-                </FlexboxGrid>
-            </List.Item>
-        )
+    const renderListItem = ({ index, style }) => {
+        const item = items[index]
+        return <Item 
+            item={item} 
+            style={style} 
+            slot={name}
+            setError={setError}
+            handleClose={handleClose}
+        />
     }
     return (
         <Drawer
@@ -114,18 +75,23 @@ const ItemDrawer = ({ open, name, handleClose }) => {
                         </InputGroup>
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
-                <div style={{color: "#f44336", marginTop: "1rem"}}>
+                <div style={{ color: "#f44336", marginTop: "1rem" }}>
                     {error}
                 </div>
-                <div style={{ marginTop: "1rem" }}>
-                    <List bordered>
-                        {items.map(renderListItem)}
-                    </List>
-                </div>
+                    <AutoSizer>
+                        {({ height, width }) => (
+                            <List
+                                className="List"
+                                height={height-100}
+                                itemCount={items.length}
+                                itemSize={70}
+                                width={width}
+                            >
+                                {renderListItem}
+                            </List>
+                        )}
+                    </AutoSizer>
             </Drawer.Body>
-            {/* <Drawer.Footer style={{ padding: "1rem" }}>
-                <Button onClick={handleClose} appearance="subtle">Close</Button>
-            </Drawer.Footer> */}
         </Drawer>
     )
 }
