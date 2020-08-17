@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ThemeProvider from './utils/ThemeProvider'
+import Container from 'rsuite/lib/Container'
 import ItemDrawer from './components/ItemDrawer'
 import SelectedItem from './components/SelectedItem'
 import List from 'rsuite/lib/List'
@@ -46,7 +47,7 @@ const App = () => {
         return (
             <SelectedItem
                 key={itemType}
-                item={build[itemType]} 
+                item={build[itemType]}
                 itemType={itemType}
                 onClick={handleOpenDrawer(itemType)}
             />
@@ -55,12 +56,14 @@ const App = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <div style={{padding: "1rem"}}>
+            <Container style={{ padding: "1rem" }}>
                 {itemTypes.map(renderItemDrawer)}
-                <List bordered>
+                <List bordered size="lg">
                     {itemTypes.map(renderItemSelector)}
                 </List>
-            </div>
+                <div style={{marginTop: "1rem"}}>
+                </div>
+            </Container>
         </ThemeProvider>
     )
 }

@@ -1,4 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const fetchItemData = createAsyncThunk('build/fetchItemData', async ({item, itemType}, { rejectWithValue }) => {
+    try {
+        const { data } = await axios.get(`http://localhost:5000/data/${item.uniqueName}`)
+        return {data, itemType}
+    } catch (err) {
+        return rejectWithValue(err.response.data)
+    }
+})
 
 const slice = createSlice({
     name: 'build',
@@ -13,44 +23,15 @@ const slice = createSlice({
         offhand: null,
     },
     reducers: {
-        setHead: (state, action) => {
-            state.head = action.payload
-        },
-        setArmor: (state, action) => {
-            state.armor = action.payload
-        },
-        setShoes: (state, action) => {
-            state.shoes = action.payload
-        },
-        setCape: (state, action) => {
-            state.cape = action.payload
-        },
-        setPotion: (state, action) => {
-            state.potion = action.payload
-        },
-        setFood: (state, action) => {
-            state.food = action.payload
-        },
-        setMainhand: (state, action) => {
-            state.mainhand = action.payload
-        },
-        setOffhand: (state, action) => {
-            state.offhand = action.payload
-        },
+        
     },
+    extraReducers: {
+        [fetchItemData.fulfilled]: (state, action) => {
+            state[action.payload.itemType] = action.payload.data
+        }
+    }
 });
 
 export default slice.reducer
 
 export const getBuild = state => state.build
-
-export const { 
-    setHead,
-    setArmor,
-    setShoes,
-    setCape,
-    setPotion,
-    setFood,
-    setMainhand,
-    setOffhand,
-} = slice.actions
