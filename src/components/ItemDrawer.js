@@ -91,6 +91,7 @@ const ItemDrawer = ({ open, name, handleClose }) => {
             <Drawer.Body>
                 <FlexboxGrid align="middle">
                     <FlexboxGrid.Item>
+                        <p>Select Tier</p>
                         <SelectPicker
                             style={{ width: 150, marginRight: "1rem" }}
                             data={tiers}
@@ -100,12 +101,14 @@ const ItemDrawer = ({ open, name, handleClose }) => {
                         />
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item>
+                        <p>Search by name</p>
                         <InputGroup inside>
                             <Input
+                                placeholder="Type..."
                                 value={search}
                                 onChange={setSearch}
                             />
-                            <InputGroup.Button onClick={() => setSearch("")}>
+                            <InputGroup.Button appearance="subtle" onClick={() => setSearch("")}>
                                 <Icon icon="close" />
                             </InputGroup.Button>
                         </InputGroup>
@@ -120,10 +123,9 @@ const ItemDrawer = ({ open, name, handleClose }) => {
                     </List>
                 </div>
             </Drawer.Body>
-            <Drawer.Footer style={{ padding: "1rem" }}>
-                <Button onClick={handleClose} appearance="subtle">Cancel</Button>
-                <Button appearance="primary">Confirm</Button>
-            </Drawer.Footer>
+            {/* <Drawer.Footer style={{ padding: "1rem" }}>
+                <Button onClick={handleClose} appearance="subtle">Close</Button>
+            </Drawer.Footer> */}
         </Drawer>
     )
 }
