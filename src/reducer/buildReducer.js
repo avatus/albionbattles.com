@@ -64,6 +64,8 @@ const slice = createSlice({
     extraReducers: {
         [fetchItemData.fulfilled]: (state, action) => {
             state[action.payload.itemType] = action.payload.data
+            state[`${action.payload.itemType}_active_spells`] = {}
+            state[`${action.payload.itemType}_passive_spells`] = {}
         }
     }
 });

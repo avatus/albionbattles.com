@@ -17,7 +17,10 @@
     "react-scripts": "3.4.3",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
-    "rsuite": "^4.8.0"
+    "rsuite": "^4.8.0",
+    "slate": "^0.58.4",
+    "slate-history": "^0.58.4",
+    "slate-react": "^0.58.4"
   },
   "scripts": {
     "dev": "react-scripts start",
