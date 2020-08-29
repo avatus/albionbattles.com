@@ -102,8 +102,8 @@ const BattleLog = props => {
                     players: battle.players.players.length
                 })}`} />
             </Helmet>
-            <Panel
-                style={{ minHeight: 600, padding: "0px !important" }}
+            <div
+                style={{ minHeight: 600 }}
             >
                 <div style={{textAlign: 'right'}}>
                     <Link to="/">Return to index</Link>
@@ -124,12 +124,12 @@ const BattleLog = props => {
                 </FlexboxGrid>
                 {<BattleMVPs battle={battle} />} 
                 <FlexboxGrid>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={24} sm={24}>
                         <AllianceTable
                             alliances={battle.alliances.alliances}
                         />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={24} sm={24}>
                         <GuildTable
                             guilds={battle.guilds.guilds}
                         />
@@ -140,7 +140,7 @@ const BattleLog = props => {
                         />
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
-            </Panel>
+            </div>
         </div>
     )
 }
