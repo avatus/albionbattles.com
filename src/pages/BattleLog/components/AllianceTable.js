@@ -47,30 +47,30 @@ const AllianceTable = ({ alliances: a }) => {
                     color: alliance.low ? "#666" : "#EEEEEE",
                 }}>
                 <FlexboxGrid>
-                    <FlexboxGrid.Item componentClass={Col} md={6}>
+                    <FlexboxGrid.Item componentClass={Col} md={6} sm={6} xs={6}>
                         <p style={{ paddingLeft: "1rem" }}>{alliance.name}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3}>
-                        <p style={{ textAlign: "right" }}>{alliance.totalPlayers}</p>
+                    <FlexboxGrid.Item componentClass={Col} md={3} sm={5} xs={5}>
+                        <p style={{ textAlign: "right", paddingRight: 15 }}>{alliance.totalPlayers}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3}>
-                        <p style={{ textAlign: "right", color: topKills ? "rgb(224, 41, 131)" : null }}>
+                    <FlexboxGrid.Item componentClass={Col} md={3} sm={4} xs={4}>
+                        <p style={{ textAlign: "right", paddingRight: 15, color: topKills ? "rgb(224, 41, 131)" : null }}>
                             {alliance.kills}
                         </p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3}>
-                        <p style={{ textAlign: "right" }}>{alliance.deaths}</p>
+                    <FlexboxGrid.Item componentClass={Col} md={3} sm={5} xs={5}>
+                        <p style={{ textAlign: "right", paddingRight: 15 }}>{alliance.deaths}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3}>
-                        <p style={{ textAlign: "right", color: topFame ? "#29e09d" : null }}>
+                    <FlexboxGrid.Item componentClass={Col} md={3} sm={4} xs={4}>
+                        <p style={{ textAlign: "right", paddingRight: 15, color: topFame ? "#29e09d" : null }}>
                             {intToString(alliance.killFame)}
                         </p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3}>
-                        <p style={{ textAlign: "right" }}>{intToString(alliance.totalDamage)}</p>
+                    <FlexboxGrid.Item componentClass={Col} md={3} smHidden xsHidden>
+                        <p style={{ textAlign: "right", paddingRight: 15 }}>{intToString(alliance.totalDamage)}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3}>
-                        <p style={{ textAlign: "right" }}>
+                    <FlexboxGrid.Item componentClass={Col} md={3} smHidden xsHidden>
+                        <p style={{ textAlign: "right", paddingRight: 12 }}>
                             {alliance.averageIp}
                         </p>
                     </FlexboxGrid.Item>
@@ -85,8 +85,9 @@ const AllianceTable = ({ alliances: a }) => {
 
     const renderSortHeader = (header, field, flex) => {
         return (
-            <div>
+            <div style={{display: 'flex', justifyContent: flex}}>
                 <Button
+                    size="xs"
                     onClick={handleSort(field)}
                     appearance="subtle">
                     {header}
@@ -170,32 +171,32 @@ const AllianceTable = ({ alliances: a }) => {
                         </InputGroup.Button>
                     </InputGroup>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <p style={{ color: "#666666" }}>Show low participation</p>
+                        <p style={{ color: "#666666", textAlign: 'right' }}>Show low participation</p>
                         <Checkbox checked={showLow} onChange={handleShowLow} />
                     </div>
                 </div>
             }
             style={{ backgroundColor: "#0f131a", minHeight: 627 }}>
             <FlexboxGrid style={{ marginBottom: "1rem", color: "#AAAAAA" }}>
-                <FlexboxGrid.Item componentClass={Col} md={6}>
+                <FlexboxGrid.Item componentClass={Col} md={6} sm={6} xs={6}>
                     {renderSortHeader('Name', 'name', 'flex-start')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={3}>
+                <FlexboxGrid.Item componentClass={Col} md={3} sm={5} xs={5}>
                     {renderSortHeader('Players', 'totalPlayers', 'flex-end')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={3}>
+                <FlexboxGrid.Item componentClass={Col} md={3} sm={4} xs={4}>
                     {renderSortHeader('Kills', 'kills', 'flex-end')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={3}>
+                <FlexboxGrid.Item componentClass={Col} md={3} sm={5} xs={5}>
                     {renderSortHeader('Deaths', 'deaths', 'flex-end')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={3}>
+                <FlexboxGrid.Item componentClass={Col} md={3} sm={4} xs={4}>
                     {renderSortHeader('Fame', 'killFame', 'flex-end')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={3}>
+                <FlexboxGrid.Item componentClass={Col} md={3} xs={3} smHidden xsHidden>
                     {renderSortHeader('Damage', 'totalDamage', 'flex-end')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={3}>
+                <FlexboxGrid.Item componentClass={Col} md={3} xs={3} smHidden xsHidden>
                     {renderSortHeader('IP', 'averageIp', 'flex-end')}
                 </FlexboxGrid.Item>
             </FlexboxGrid>

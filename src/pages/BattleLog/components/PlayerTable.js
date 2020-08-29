@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Button from 'rsuite/lib/Button'
 import { ITEM_ICON_URL } from '../../../utils/constants'
 import FlexboxGrid from 'rsuite/lib/FlexboxGrid'
 import List from 'rsuite/lib/List'
@@ -68,23 +69,44 @@ const PlayerTable = ({ players: p }) => {
     // let topKills = guild.kills === maxGuildKills
     // let topFame = guild.killFame === maxGuildKillFame
     // let borderClass = topKills && topFame ? "fameandkills" : topKills ? 'topkills' : topFame ? 'topfame' : null
+    // const renderSortHeader = (header, field, flex) => {
+    //     return (
+    //         <div
+    //             onClick={handleSort(field)}
+    //             style={{ display: 'flex', justifyContent: flex, alignItems: 'center' }}>
+    //             <p style={{ marginRight: 4 }}>{header}</p>
+    //             {
+    //                 sort === field && !sortDirection && <Icon icon="sort-up" style={{ color: "#34c3ff" }} />
+    //             }
+    //             {
+    //                 sort === field && sortDirection && <Icon icon="sort-desc" style={{ color: "#34c3ff" }} />
+    //             }
+    //             {
+    //                 sort !== field && <Icon icon="sort" style={{ color: "#34c3ff" }} />
+    //             }
+    //         </div>
+
+    //     )
+    // }
     const renderSortHeader = (header, field, flex) => {
         return (
-            <div
-                onClick={handleSort(field)}
-                style={{ display: 'flex', justifyContent: flex, alignItems: 'center' }}>
-                <p style={{ marginRight: 4 }}>{header}</p>
-                {
-                    sort === field && !sortDirection && <Icon icon="sort-up" style={{ color: "#34c3ff" }} />
-                }
-                {
-                    sort === field && sortDirection && <Icon icon="sort-desc" style={{ color: "#34c3ff" }} />
-                }
-                {
-                    sort !== field && <Icon icon="sort" style={{ color: "#34c3ff" }} />
-                }
+            <div style={{display: 'flex', justifyContent: flex}}>
+                <Button
+                    size="xs"
+                    onClick={handleSort(field)}
+                    appearance="subtle">
+                    {header}
+                    {
+                        sort === field && !sortDirection && <Icon icon="sort-up" style={{ color: "#34c3ff" }} />
+                    }
+                    {
+                        sort === field && sortDirection && <Icon icon="sort-desc" style={{ color: "#34c3ff" }} />
+                    }
+                    {
+                        sort !== field && <Icon icon="sort" style={{ color: "#34c3ff" }} />
+                    }
+                </Button>
             </div>
-
         )
     }
     const renderPlayerStats = (player) => {
@@ -94,7 +116,7 @@ const PlayerTable = ({ players: p }) => {
                 key={player.id}
             >
                 <FlexboxGrid>
-                    <FlexboxGrid.Item componentClass={Col} md={6}>
+                    <FlexboxGrid.Item componentClass={Col} md={6} xsHidden smHidden>
                         <div style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -108,29 +130,33 @@ const PlayerTable = ({ players: p }) => {
                             {player.name}
                         </div>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3}>
-                        <p style={{ textAlign: "right" }}>{player.guildName}</p>
+                    <FlexboxGrid.Item componentClass={Col} md={6} mdHidden lgHidden xs={6} sm={6}>
+                        <p>{player.name}</p>
+                        <p style={{color: "#999999"}}>{player.allianceName}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3}>
-                        <p style={{ textAlign: "right" }}>{player.allianceName}</p>
+                    <FlexboxGrid.Item componentClass={Col} md={4} xsHidden smHidden>
+                        <p style={{ textAlign: "right", paddingRight: 15, }}>{player.guildName}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={2}>
-                        <p style={{ textAlign: "right" }}>{player.kills}</p>
+                    <FlexboxGrid.Item componentClass={Col} md={4} xsHidden smHidden>
+                        <p style={{ textAlign: "right", paddingRight: 15, }}>{player.allianceName}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={2}>
+                    <FlexboxGrid.Item componentClass={Col} md={2} xs={3} sm={3}>
+                        <p style={{ textAlign: "right", paddingRight: 15, }}>{player.kills}</p>
+                    </FlexboxGrid.Item>
+                    {/* <FlexboxGrid.Item componentClass={Col} md={2}>
                         <p style={{ textAlign: "right" }}>{player.deaths}</p>
+                    </FlexboxGrid.Item> */}
+                    <FlexboxGrid.Item componentClass={Col} md={2} xs={4} sm={4}>
+                        <p style={{ textAlign: "right", paddingRight: 15, }}>{intToString(player.killFame)}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={2}>
-                        <p style={{ textAlign: "right" }}>{intToString(player.killFame)}</p>
+                    <FlexboxGrid.Item componentClass={Col} md={2} xs={4} sm={4}>
+                        <p style={{ textAlign: "right", paddingRight: 15, }}>{intToString(player.totalDamage)}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={2}>
-                        <p style={{ textAlign: "right" }}>{intToString(player.totalDamage)}</p>
+                    <FlexboxGrid.Item componentClass={Col} md={2} xs={3} sm={3}>
+                        <p style={{ textAlign: "right", paddingRight: 15, }}>{intToString(player.totalHealing)}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={2}>
-                        <p style={{ textAlign: "right" }}>{intToString(player.totalHealing)}</p>
-                    </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={2}>
-                        <p style={{ textAlign: "right" }}>{player.ip}</p>
+                    <FlexboxGrid.Item componentClass={Col} md={2} xs={4} sm={4}>
+                        <p style={{ textAlign: "right", paddingRight: 15, }}>{player.ip}</p>
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
             </List.Item>
@@ -155,38 +181,38 @@ const PlayerTable = ({ players: p }) => {
                     </InputGroup>
                 </div>
             }
-            style={{ backgroundColor: "#0f131a", minHeight: 740 }}>
+            style={{ backgroundColor: "#0f131a", minHeight: 750 }}>
             <FlexboxGrid style={{ marginBottom: "1rem", color: "#AAAAAA" }}>
-                <FlexboxGrid.Item componentClass={Col} md={6}>
+                <FlexboxGrid.Item componentClass={Col} md={6} xs={6} sm={6}>
                     {renderSortHeader('Name', 'name', 'flex-start')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={3}>
+                <FlexboxGrid.Item componentClass={Col} md={4} xsHidden smHidden>
                     {renderSortHeader('Guild', 'guildName', 'flex-end')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={3}>
+                <FlexboxGrid.Item componentClass={Col} md={4} xs={4} xsHidden smHidden>
                     {renderSortHeader('Alliance', 'allianceName', 'flex-end')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={2}>
+                <FlexboxGrid.Item componentClass={Col} md={2} xs={3} sm={3}>
                     {renderSortHeader('Kills', 'kills', 'flex-end')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={2}>
+                {/* <FlexboxGrid.Item componentClass={Col} md={2} xs={3}>
                     {renderSortHeader('Deaths', 'deaths', 'flex-end')}
-                </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={2}>
+                </FlexboxGrid.Item> */}
+                <FlexboxGrid.Item componentClass={Col} md={2} xs={4} sm={4}>
                     {renderSortHeader('Fame', 'killFame', 'flex-end')}
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={2}>
+                <FlexboxGrid.Item componentClass={Col} md={2} xs={4} sm={4}>
                     <Whisper placement="top" trigger="hover" speaker={tooltip}>
                             {renderSortHeader('Damage', 'totalDamage', 'flex-end')}
                     </Whisper>
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={2}>
+                <FlexboxGrid.Item componentClass={Col} md={2} xs={3} sm={3}>
                     <Whisper placement="top" trigger="hover" speaker={tooltip}>
                             {renderSortHeader('Healing', 'totalHealing', 'flex-end')}
                     </Whisper>
                 </FlexboxGrid.Item>
-                <FlexboxGrid.Item componentClass={Col} md={2}>
-                    {renderSortHeader('Item Power', 'ip', 'flex-end')}
+                <FlexboxGrid.Item componentClass={Col} md={2} xs={4} sm={4}>
+                    {renderSortHeader('IP', 'ip', 'flex-end')}
                 </FlexboxGrid.Item>
             </FlexboxGrid>
             <List hover>
