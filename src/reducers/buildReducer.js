@@ -1,10 +1,26 @@
 import axios from 'axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-export const fetchItemData = createAsyncThunk('build/fetchItemData', async ({item, itemType}, { rejectWithValue }) => {
+export const fetchItemData = createAsyncThunk('build/fetchItemData', async ({ item, itemType }, { rejectWithValue }) => {
     try {
-        const { data } = await axios.get(`http://localhost:5000/data/${item.uniqueName}`)
-        return {data, itemType}
+        const { data } = await axios.get(`http://localhost:5001/items/${item.uniqueName}`)
+        console.log(data)
+        return { data, itemType }
+    } catch (err) {
+        return rejectWithValue(err.response.data)
+    }
+})
+
+export const saveBuild = createAsyncThunk('build/saveBuild', async (_, { rejectWithValue, getState }) => {
+    const build = getState().build
+    try {
+        axios.post(`http://localhost:5001/build`, { build })
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     } catch (err) {
         return rejectWithValue(err.response.data)
     }
@@ -41,10 +57,19 @@ const slice = createSlice({
         food_passive_spells: {},
         mainhand_passive_spells: {},
         offhand_passive_spells: {},
+        description: [{
+            type: 'paragraph',
+            children: [
+                { text: '' },
+            ]
+        }]
     },
     reducers: {
         removeItem: (state, action) => {
             state[action.payload] = null
+        },
+        setDescription: (state, action) => {
+            state.description = action.payload
         },
         setSpells: (state, action) => {
             state.spells = action.payload.spells
@@ -66,7 +91,7 @@ const slice = createSlice({
             state[action.payload.itemType] = action.payload.data
             state[`${action.payload.itemType}_active_spells`] = {}
             state[`${action.payload.itemType}_passive_spells`] = {}
-        }
+        },
     }
 });
 
@@ -74,9 +99,11 @@ export default slice.reducer
 
 export const getBuild = state => state.build
 export const getSpells = state => state.build.spells
+export const getDescription = state => state.build.description
 
-export const { 
+export const {
     removeItem,
     setSpells,
     selectSpell,
+    setDescription,
 } = slice.actions

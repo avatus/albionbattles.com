@@ -63,7 +63,7 @@ const SelectedItem = ({ onClick, item, itemType, selectSpells }) => {
                         <img
                             style={{ opacity: 0.2 }}
                             src={`${ITEM_ICON_URL}${mhand?.uniqueName}?size=50`}
-                            alt={mhand.localizedNames['EN-US']}
+                            alt={mhand.name}
                         />
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
@@ -100,12 +100,12 @@ const SelectedItem = ({ onClick, item, itemType, selectSpells }) => {
         }
         return (
             <div>
-                <p>{item.localizedNames['EN-US']}</p>
+                <p>{item.name}</p>
                 <FlexboxGrid align="middle">
                     <FlexboxGrid.Item onClick={onClick} style={{ cursor: 'pointer' }}>
                         <img
                             src={`${ITEM_ICON_URL}${item?.uniqueName}?size=50`}
-                            alt={item.localizedNames['EN-US']}
+                            alt={item.name}
                         />
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item>

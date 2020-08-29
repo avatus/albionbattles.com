@@ -13,6 +13,60 @@ code {
     monospace;
 }
 
+.tag-card {
+  transition: all 0.2s;
+  background-size: 100%;
+}
+
+.tag-card:hover {
+  background-size: 105%;
+}
+
+.topkills {
+  border-left: 3px solid rgb(224, 41, 131);
+}
+
+.topfame {
+  border-left: 3px solid #29e09d;
+}
+
+.fameandkills {
+  border-left: 3px solid ;
+  animation: borderColor 1s infinite alternate;
+}
+
+.empty-image:empty:before {
+  content: "\200b"; 
+}
+
+@keyframes borderColor {
+  from {
+      border-left: 3px solid rgb(224, 41, 131);
+  }
+  to {
+      border-left: 3px solid #29e09d;
+  }
+}
+
+.item-list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.item-list::-webkit-scrollbar {
+  width: 6px;               /* width of the entire scrollbar */
+}
+.item-list::-webkit-scrollbar-track {
+  background: #0f131a;        /* color of the tracking area */
+}
+.item-list::-webkit-scrollbar-thumb {
+  background-color: rgb(41, 206, 224);    /* color of the scroll thumb */
+  border-radius: 5px;       /* roundness of the scroll thumb */
+}
+
 /* 
 ::-webkit-scrollbar-track {
   background: transparent !important;
@@ -32,19 +86,3 @@ code {
 }
 
 */
-
-.List {
-  /* background-color: ; */
-  /* border: 1px solid #d9dddd; */
-}
-
-.ListItemEven,
-.ListItemOdd {
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-}
-
-.ListItemEven {
-  /* background-color: #f8f8f0; */
-} 

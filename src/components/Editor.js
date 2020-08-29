@@ -1,10 +1,12 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import isHotkey from 'is-hotkey'
 import { Editable, withReact, useSlate, Slate } from 'slate-react'
 import { Editor, createEditor } from 'slate'
 import { withHistory } from 'slate-history'
 // import Button from 'rsuite/lib/Button'
 import ButtonToolbar from 'rsuite/lib/ButtonToolbar'
+import { useSelector, useDispatch } from 'react-redux'
+import { setDescription, getDescription } from '../reducer/buildReducer'
 import IconButton from 'rsuite/lib/IconButton'
 import Container from 'rsuite/lib/Container'
 import ButtonGroup from 'rsuite/lib/ButtonGroup'
@@ -20,10 +22,16 @@ const HOTKEYS = {
 // const LIST_TYPES = ['numbered-list', 'bulleted-list']
 
 const RichTextExample = () => {
-    const [value, setValue] = useState(initialValue)
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+    const dispatch = useDispatch()
+
+    const handleUpdate = value => {
+        dispatch(setDescription(value))
+    }
+
+    const value = useSelector(getDescription)
 
     return (
         <div>
@@ -33,7 +41,7 @@ const RichTextExample = () => {
                 border: "1px solid #292d33",
                 borderRadius: "6px"
             }}>
-                <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+                <Slate editor={editor} value={value} onChange={handleUpdate}>
                     <ButtonToolbar>
                         <ButtonGroup>
                             <MarkButton format="bold" icon="bold" />
@@ -41,7 +49,7 @@ const RichTextExample = () => {
                             <MarkButton format="underline" icon="underline" />
                         </ButtonGroup>
                     </ButtonToolbar>
-                    <Container style={{padding: "12px 15px"}}>
+                    <Container style={{padding: "12px 15px", maxHeight: 678, overflow: "auto"}}>
                         <Editable
                             renderElement={renderElement}
                             renderLeaf={renderLeaf}
@@ -174,14 +182,5 @@ const MarkButton = ({ format, icon }) => {
             icon={<Icon icon={icon} />} />
     )
 }
-
-const initialValue = [
-    {
-        type: 'paragraph',
-        children: [
-            { text: '' },
-        ],
-    }
-]
 
 export default RichTextExample

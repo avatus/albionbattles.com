@@ -5,8 +5,7 @@ const ThemeProvider = ({ theme, children }) => {
     return (
         <React.Fragment>
             <Helmet>
-                <link async rel='stylesheet' href='./light.css' />
-                <link async rel='stylesheet' href={theme === 'dark' ? './dark.css' : './light.css'} />
+                <link async rel='stylesheet' href='/dark.css' />
             </Helmet>
             {children}
         </React.Fragment>
