@@ -10,31 +10,31 @@ import MostExpensiveDeath from './MostExpensiveDeath'
 const BattleMVPs = ({ battle }) => {
     return (
         <FlexboxGrid>
-            <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={24} sm={24}>
+            <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={24} xs={24}>
                 <FlexboxGrid>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={12} xs={24}>
                         <HighestDamagePlayer
                             players={battle.highestDamagePlayer.players}
                         />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={12} xs={24}>
                         <HighestKills
                             players={battle.highestKillsPlayer.players}
                         />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={12} xs={24}>
                         <HighestHealingPlayer
                             players={battle.highestHealingPlayer.players}
                         />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={12} xs={24}>
                         <HighestAssists
                             players={battle.highestAssists.players}
                         />
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
             </FlexboxGrid.Item>
-            <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={24} sm={24}>
+            <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} md={24} xs={24}>
                 <MostExpensiveDeath
                     players={battle.mostExpensiveDeath}
                 />

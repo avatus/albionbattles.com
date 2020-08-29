@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import FlexboxGrid from 'rsuite/lib/FlexboxGrid'
 import List from 'rsuite/lib/List'
 import Icon from 'rsuite/lib/Icon'
+import Button from 'rsuite/lib/Button'
 import Panel from 'rsuite/lib/Panel'
 import InputGroup from 'rsuite/lib/InputGroup'
 import Input from 'rsuite/lib/Input'
@@ -84,34 +85,55 @@ const AllianceTable = ({ alliances: a }) => {
 
     const renderSortHeader = (header, field, flex) => {
         return (
-            <div
-                onClick={handleSort(field)}
-                style={{ display: 'flex', justifyContent: flex, alignItems: 'center' }}>
-                <p style={{ marginRight: 4 }}>{header}</p>
-                {
-                    sort === field && !sortDirection && <Icon icon="sort-up" style={{ color: "#34c3ff" }} />
-                }
-                {
-                    sort === field && sortDirection && <Icon icon="sort-desc" style={{ color: "#34c3ff" }} />
-                }
-                {
-                    sort !== field && <Icon icon="sort" style={{ color: "#34c3ff" }} />
-                }
+            <div>
+                <Button
+                    onClick={handleSort(field)}
+                    appearance="subtle">
+                    {header}
+                    {
+                        sort === field && !sortDirection && <Icon icon="sort-up" style={{ color: "#34c3ff" }} />
+                    }
+                    {
+                        sort === field && sortDirection && <Icon icon="sort-desc" style={{ color: "#34c3ff" }} />
+                    }
+                    {
+                        sort !== field && <Icon icon="sort" style={{ color: "#34c3ff" }} />
+                    }
+                </Button>
             </div>
-
         )
     }
+
+    // const renderSortHeader = (header, field, flex) => {
+    //     return (
+    //         <div
+    //             onClick={handleSort(field)}
+    //             style={{ display: 'flex', justifyContent: flex, alignItems: 'center' }}>
+    //             <p style={{ marginRight: 4 }}>{header}</p>
+    //             {
+    //                 sort === field && !sortDirection && <Icon icon="sort-up" style={{ color: "#34c3ff" }} />
+    //             }
+    //             {
+    //                 sort === field && sortDirection && <Icon icon="sort-desc" style={{ color: "#34c3ff" }} />
+    //             }
+    //             {
+    //                 sort !== field && <Icon icon="sort" style={{ color: "#34c3ff" }} />
+    //             }
+    //         </div>
+
+    //     )
+    // }
 
     // eslint-disable-next-line
     sort && alliances.sort((a, b) => {
         if (sort === 'name') {
             if (sortDirection) {
-                if(a[sort].toLowerCase() < b[sort].toLowerCase()) { return -1; }
-                if(a[sort].toLowerCase() > b[sort].toLowerCase()) { return 1; }
+                if (a[sort].toLowerCase() < b[sort].toLowerCase()) { return -1; }
+                if (a[sort].toLowerCase() > b[sort].toLowerCase()) { return 1; }
             }
             else {
-                if(a[sort].toLowerCase() < b[sort].toLowerCase()) { return 1; }
-                if(a[sort].toLowerCase() > b[sort].toLowerCase()) { return -1; }
+                if (a[sort].toLowerCase() < b[sort].toLowerCase()) { return 1; }
+                if (a[sort].toLowerCase() > b[sort].toLowerCase()) { return -1; }
             }
         }
         else {
@@ -138,10 +160,10 @@ const AllianceTable = ({ alliances: a }) => {
                             : <p>{`Alliances (${alliances.length})`}<span style={{ color: "#666", marginLeft: "1rem" }}>{`${a.length - alliances.length} hidden`}</span></p>
                     }
                     <InputGroup size="sm" inside style={{ width: 200, marginLeft: "2rem", marginRight: 'auto' }}>
-                        <Input 
+                        <Input
                             placeholder="Search..."
-                            value={search} 
-                            onChange={setSearch} 
+                            value={search}
+                            onChange={setSearch}
                         />
                         <InputGroup.Button>
                             <Icon icon="search" />

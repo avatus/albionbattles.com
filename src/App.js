@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ThemeProvider from './utils/ThemeProvider'
 import Container from 'rsuite/lib/Container'
 import Footer from 'rsuite/lib/Footer'
+import reactga from 'react-ga'
 // import SideNavigation from './components/SideNavigation'
 // import Header from './components/Header'
 import { BrowserRouter as Router, Redirect, Switch, Route } from 'react-router-dom'
@@ -11,6 +12,9 @@ import BattleLog from './pages/BattleLog/BattleLog'
 import BattleSearch from './pages/SearchBattles/BattleSearch'
 
 const App = props => {
+    useEffect(() => {
+        reactga.initialize('UA-174250715-2')
+    },[])
     const [theme] = useState(window.localStorage.getItem('theme') || 'light')
     return (
         <ThemeProvider theme={theme}>
@@ -49,7 +53,7 @@ const App = props => {
                             color: "#666666",
                             padding: 20,
                             margin: 'auto'}}>
-                                <div style={{paddingLeft: 20, paddingRight: 20}}>This killboard is in beta. If you find any bugs or have any suggestions please contact me on discord: Alienz#5725</div>
+                                <div style={{paddingLeft: 20, paddingRight: 20}}>This killboard is in beta. I have a google analytics tag running but it's only tracking page views, no data is stored. If you find any bugs or have any suggestions please contact me on discord: Alienz#5725</div>
                             </Footer>
                 </Container>
             </Router>

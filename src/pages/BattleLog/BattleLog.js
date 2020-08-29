@@ -10,6 +10,7 @@ import * as ACTIONS from '../../reducers/battleReducer'
 import OverallStats from './components/BattleOverallStats'
 import moment from 'moment'
 import TotalPlayerStats from './components/TotalPlayerStats'
+import reactga from 'react-ga'
 import TotalKillStats from './components/TotalKillStats'
 import TotalFameStats from './components/TotalFameStats'
 import AllianceTable from './components/AllianceTable'
@@ -38,6 +39,11 @@ const BattleLog = props => {
     const error = useSelector(ACTIONS.getError)
     const dispatch = useDispatch()
     const { id } = props.match.params
+
+
+    useEffect(() => {
+        reactga.pageview(`/battles/${id}`)
+    },[id])
 
     useEffect(() => {
         dispatch(ACTIONS.fetchBattle(id))
@@ -109,32 +115,32 @@ const BattleLog = props => {
                     <Link to="/">Return to index</Link>
                 </div>
                 <FlexboxGrid>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} xs={24}>
                         <OverallStats />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} xs={24}>
                         <TotalPlayerStats />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} xs={24}>
                         <TotalKillStats />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} xs={24}>
                         <TotalFameStats />
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
                 {<BattleMVPs battle={battle} />} 
                 <FlexboxGrid>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={24} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} xs={24}>
                         <AllianceTable
                             alliances={battle.alliances.alliances}
                         />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={24} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} xs={24}>
                         <GuildTable
                             guilds={battle.guilds.guilds}
                         />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} sm={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} xs={24}>
                         <PlayerTable
                             players={battle.players.players}
                         />

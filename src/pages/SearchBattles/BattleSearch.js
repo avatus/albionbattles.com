@@ -4,6 +4,7 @@ import useInterval from '@use-it/interval';
 import axios from 'axios'
 import Icon from 'rsuite/lib/Icon'
 import Panel from 'rsuite/lib/Panel'
+import reactga from 'react-ga'
 import _ from 'lodash'
 import { ROOT_URL } from '../../utils/constants'
 import FlexboxGrid from 'rsuite/lib/FlexboxGrid'
@@ -43,6 +44,10 @@ const BattlesSearch = () => {
     const handleInputChange = _.debounce(() => {
         setSearch(inputEl.current.value)
     }, 100)
+
+    useEffect(() => {
+        reactga.pageview('/battles')
+    },[])
 
     useEffect(() => {
         setLoading(true)
