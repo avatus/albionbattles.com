@@ -36,7 +36,7 @@ const GuildTable = ({ guilds: g }) => {
     const [search, setSearch] = useState('')
     const [showLow, setShowLow] = useState(true)
     const [sortDirection, setSortDirection] = useState(true)
-    const guilds = [...g]
+    const guilds = showLow ? [...g] : [...g].filter(i => !i.low)
     const maxKills = guilds.sort((a, b) => b.kills - a.kills)[0].kills
     const maxKillFame = guilds.sort((a, b) => b.killFame - a.killFame)[0].killFame
     const handleSort = column => _ => {
