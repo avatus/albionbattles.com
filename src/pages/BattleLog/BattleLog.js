@@ -130,12 +130,12 @@ const BattleLog = props => {
                 </FlexboxGrid>
                 {<BattleMVPs battle={battle} />} 
                 <FlexboxGrid>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} xs={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} xs={24}>
                         <AllianceTable
                             alliances={battle.alliances.alliances}
                         />
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} xs={24}>
+                    <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} xs={24}>
                         <GuildTable
                             guilds={battle.guilds.guilds}
                         />
