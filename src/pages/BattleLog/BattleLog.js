@@ -42,6 +42,13 @@ const BattleLog = props => {
 
 
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }, [])
+
+    useEffect(() => {
         reactga.pageview(`/battles/${id}`)
     },[id])
 
@@ -80,19 +87,20 @@ const BattleLog = props => {
     if (loading) {
         return (
             <div>
-                <Col style={{ height: "5vh" }} smHidden />
-                <Panel
+                <div
                     style={{
                         backgroundColor: "#0f131a",
-                        maxWidth: 300,
+                        maxWidth: 100,
+                        padding: "2rem",
                         textAlign: 'center',
                         margin: "auto",
+                        marginTop: "5vh",
                     }}
                     bodyFill
                     shaded
                 >
                     <Loader size="sm" />
-                </Panel>
+                </div>
             </div>
         )
     }

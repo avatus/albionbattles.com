@@ -5,6 +5,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 export const fetchBattle = createAsyncThunk('build/fetchBattle', async (id, { rejectWithValue }) => {
     try {
         const { data } = await axios.get(`${ROOT_URL}/battles/${id}`)
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
         return data
     } catch (err) {
         return rejectWithValue(err.response.data)
