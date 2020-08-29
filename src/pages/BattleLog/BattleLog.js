@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import FlexboxGrid from 'rsuite/lib/FlexboxGrid'
 import * as ACTIONS from '../../reducers/battleReducer'
 import OverallStats from './components/BattleOverallStats'
+import moment from 'moment'
 import TotalPlayerStats from './components/TotalPlayerStats'
 import TotalKillStats from './components/TotalKillStats'
 import TotalFameStats from './components/TotalFameStats'
@@ -15,6 +16,21 @@ import AllianceTable from './components/AllianceTable'
 import GuildTable from './components/GuildTable'
 import PlayerTable from './components/PlayerTable'
 import BattleMVPs from './components/BattleMVPs'
+
+const formatName = (alliances) => {
+    if (alliances.length < 1) {
+        return "Unallied"
+    }
+    if (alliances.length > 4) {
+        return `${alliances.slice(0, 3).join(', ')} and ${alliances.slice(4, alliances.length).length} more`
+    }
+    return alliances.join(', ')
+}
+
+const formatDescription = ({alliances, time, kills, players}) => {
+    const string = `Battle: ${formatName(alliances)} at ${time} - ${players} players and ${kills} kills`
+    return string
+}
 
 const BattleLog = props => {
     const battle = useSelector(ACTIONS.getBattle)
@@ -79,6 +95,12 @@ const BattleLog = props => {
         <div>
             <Helmet>
                 <title>{`Battle Report - ${battle.id}`}</title>
+                <meta name="description" content={`${formatDescription({
+                    alliances: battle.alliances.list,
+                    kills: battle.totalKills,
+                    time: moment(battle.startTime).add(7, 'hours').format('MM-DD: HH:mm'),
+                    players: battle.players.players.length
+                })}`} />
             </Helmet>
             <Panel
                 style={{ minHeight: 600, padding: "0px !important" }}
