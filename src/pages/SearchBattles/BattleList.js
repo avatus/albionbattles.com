@@ -26,6 +26,9 @@ const BattleList = ({battles, activePage, setActivePage}) => {
                     />
                 </div>
             }
+            <div style={{marginTop: "1rem", color: "#666"}}>
+                <p>I'm currently removing any battle 5 days after it has been parsed. If a battle accessed from a link is not found in the database, it will parse the battle again. I can adjust the time to live higher once I get a sense of how much data can be realistically stored. I aim to hover around 85% capacity to give space for big reset days.</p>
+            </div>
         </div>
     )
 }
