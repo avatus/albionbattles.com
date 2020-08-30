@@ -96,8 +96,6 @@ const BattleLog = props => {
                         margin: "auto",
                         marginTop: "5vh",
                     }}
-                    bodyFill
-                    shaded
                 >
                     <Loader size="sm" />
                 </div>

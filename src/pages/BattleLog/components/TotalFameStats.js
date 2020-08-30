@@ -6,9 +6,27 @@ import { useSelector } from 'react-redux'
 import { getBattle } from '../../../reducers/battleReducer'
 import TotalBar from './TotalBar'
 
+const text_truncate = function (str, length, ending) {
+    if (length == null) {
+        length = 100;
+    }
+    if (ending == null) {
+        ending = '...';
+    }
+    if (str.length > length) {
+        return str.substring(0, length - ending.length) + ending;
+    } else {
+        return str;
+    }
+};
+
+
 const TotalFameStats = () => {
-    const { alliances: a } = useSelector(getBattle)
-    const alliances = [...a.alliances].sort((a,b) => b.killFame-a.killFame)
+    const { alliances: a, guilds: g } = useSelector(getBattle)
+    let alliances = [...a.alliances].sort((a,b) => b.killFame-a.killFame)
+    if (alliances.length < 1) {
+        alliances = [...g.guilds].sort((a,b) => b.killFame-a.killFame)
+    }
     const top = alliances[0]
     return (
         <Panel
@@ -33,7 +51,7 @@ const TotalFameStats = () => {
                         t={top.killFame}
                         background="linear-gradient(90deg, rgba(41,224,157,1) 0%, rgba(41,224,130,1) 100%)"
                     />
-                    <p style={{ color: "#AAA" }}>{a.name !== "" ? a.name : "Unalligned"}</p>
+                    <p style={{ color: "#AAA" }}>{a.name !== "" ? text_truncate(a.name, 8, '...') : "Unalligned"}</p>
                 </div>
             ))}
         </Panel>

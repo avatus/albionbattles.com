@@ -49,25 +49,6 @@ const GuildTable = ({ guilds: g }) => {
         }
     }
 
-    // const renderSortHeader = (header, field, flex) => {
-    //     return (
-    //         <div
-    //             onClick={handleSort(field)}
-    //             style={{ display: 'flex', justifyContent: flex, alignItems: 'center' }}>
-    //             <p style={{ marginRight: 4 }}>{header}</p>
-    //             {
-    //                 sort === field && !sortDirection && <Icon icon="sort-up" style={{ color: "#34c3ff" }} />
-    //             }
-    //             {
-    //                 sort === field && sortDirection && <Icon icon="sort-desc" style={{ color: "#34c3ff" }} />
-    //             }
-    //             {
-    //                 sort !== field && <Icon icon="sort" style={{ color: "#34c3ff" }} />
-    //             }
-    //         </div>
-
-    //     )
-    // }
     const renderSortHeader = (header, field, flex) => {
         return (
             <div style={{display: 'flex', justifyContent: flex}}>
@@ -125,7 +106,6 @@ const GuildTable = ({ guilds: g }) => {
         let topKills = guild.kills === maxKills
         let topFame = guild.killFame === maxKillFame
         let borderClass = topKills && topFame ? "fameandkills" : topKills ? 'topkills' : topFame ? 'topfame' : null
-        console.log(guild.name)
         return (
             <List.Item
                 key={guild.id}

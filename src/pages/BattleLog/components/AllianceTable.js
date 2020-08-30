@@ -22,8 +22,8 @@ const AllianceTable = ({ alliances: a }) => {
     const [sort, setSort] = useState('killFame')
     const [sortDirection, setSortDirection] = useState(true)
     const alliances = showLow ? [...a] : [...a].filter(i => !i.low)
-    const maxKills = alliances.sort((a, b) => b.kills - a.kills)[0].kills
-    const maxKillFame = alliances.sort((a, b) => b.killFame - a.killFame)[0].killFame
+    const maxKills = alliances.length > 0 ? alliances.sort((a, b) => b.kills - a.kills)[0].kills : null
+    const maxKillFame = alliances.length > 0 ? alliances.sort((a, b) => b.killFame - a.killFame)[0].killFame : null
 
     const handleSort = column => _ => {
         if (sort === column) {
