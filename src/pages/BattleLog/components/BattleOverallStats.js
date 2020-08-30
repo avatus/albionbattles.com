@@ -40,7 +40,7 @@ const OverallStats = props => {
                         style={{ minWidth: 25, marginRight: '0.3rem' }}
                         icon={faClock}
                     />
-                    <p style={{ color: "#AAA" }}>Duration:</p>
+                    <p style={{ color: "#AAA" }}>Start Time:</p>
                 </div>
                 <p style={{ color: "#AAA" }}>{moment(battle.startTime).add(7, 'hours').format('MM-DD: H:mm')}</p>
             </div>
