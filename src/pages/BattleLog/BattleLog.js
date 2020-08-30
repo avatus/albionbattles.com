@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Loader from 'rsuite/lib/Loader'
 import Panel from 'rsuite/lib/Panel'
 import { Link } from 'react-router-dom'
@@ -35,11 +35,19 @@ const formatDescription = ({alliances, time, kills, players}) => {
 
 const BattleLog = props => {
     const battle = useSelector(ACTIONS.getBattle)
+    const [parsingMessage, setParsingMessage] = useState("")
     const loading = useSelector(ACTIONS.getLoadingBattle)
     const error = useSelector(ACTIONS.getError)
     const dispatch = useDispatch()
     const { id } = props.match.params
 
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setParsingMessage("Parsing battle report...")
+          }, 3000);
+          return () => clearTimeout(timer);
+    }, [])
 
     useEffect(() => {
         window.scrollTo({
@@ -90,14 +98,14 @@ const BattleLog = props => {
                 <div
                     style={{
                         backgroundColor: "#0f131a",
-                        maxWidth: 100,
+                        maxWidth: 400,
                         padding: "2rem",
                         textAlign: 'center',
                         margin: "auto",
                         marginTop: "5vh",
                     }}
                 >
-                    <Loader size="sm" />
+                    <Loader size="sm" content={parsingMessage} vertical/>
                 </div>
             </div>
         )

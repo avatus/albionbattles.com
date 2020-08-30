@@ -7,7 +7,7 @@ const BattleList = ({battles, activePage, setActivePage}) => {
     return (
         <div>
             <List>
-                {battles.docs.map(b => <BattleListItem key={b.id} battle={b} />)}
+                {battles && battles.docs && battles.docs.map(b => <BattleListItem key={b.id} battle={b} />)}
             </List>
             {
                 battles.totalDocs > 50 &&
