@@ -1,12 +1,12 @@
 import React from 'react'
-import {Helmet} from "react-helmet";
+// import {Helmet} from "react-helmet";
 
 const ThemeProvider = ({ theme, children }) => {
     return (
         <React.Fragment>
-            <Helmet>
+            {/* <Helmet>
                 <link async rel='stylesheet' href='/dark.css' />
-            </Helmet>
+            </Helmet> */}
             {children}
         </React.Fragment>
     )
