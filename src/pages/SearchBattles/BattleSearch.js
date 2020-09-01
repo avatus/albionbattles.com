@@ -5,7 +5,6 @@ import axios from 'axios'
 import Icon from 'rsuite/lib/Icon'
 import Panel from 'rsuite/lib/Panel'
 import reactga from 'react-ga'
-import _ from 'lodash'
 import { ROOT_URL } from '../../utils/constants'
 import FlexboxGrid from 'rsuite/lib/FlexboxGrid'
 import Loader from 'rsuite/lib/Loader'
@@ -15,14 +14,14 @@ import Col from 'rsuite/lib/Col'
 import InputGroup from 'rsuite/lib/InputGroup'
 import BattleList from './BattleList'
 
-
 const BattlesSearch = () => {
     const [loading, setLoading] = useState(true)
     const inputEl = createRef()
     const [battles, setBattles] = useState([])
-    const [search, setSearch] = useState("")
+    const [refreshingTimer, setRefreshingTimer] = useState(60)
     const [largeOnly, setLargeOnly] = useState(window.localStorage.getItem('largeOnly') === 'true' || false)
     const [activePage, setActivePage] = useState(1)
+    const [searching, setSearching] = useState(false)
 
     const handleLargeOnly = (_, checked) => {
         window.localStorage.setItem('largeOnly', checked)
@@ -31,23 +30,36 @@ const BattlesSearch = () => {
     }
 
     const getData = () => {
-        axios.get(`${ROOT_URL}/battles?largeOnly=${largeOnly}&offset=${(activePage - 1) * 50}&search=${search}`)
+        let searchdata = inputEl && inputEl.current && inputEl.current.value ? inputEl.current.value : ''
+        axios.get(`${ROOT_URL}/battles?largeOnly=${largeOnly}&offset=${(activePage - 1) * 20}&search=${searchdata}`)
             .then(response => {
                 setBattles(response.data)
                 setLoading(false)
+                setSearching(false)
             })
             .catch(err => {
                 setLoading(false)
             })
     }
 
-    const handleInputChange = _.debounce(() => {
-        setSearch(inputEl.current.value)
-    }, 100)
+    useInterval(() => {
+        if (refreshingTimer > 0) {
+            setRefreshingTimer(refreshingTimer - 1)
+        }
+        else {
+            getData()
+            setRefreshingTimer(60)
+        }
+    }, 1000)
+
+    const handleSearch = () => {
+        setSearching(true)
+        getData()
+    }
 
     useEffect(() => {
         reactga.pageview('/battles')
-    },[])
+    }, [])
 
     useEffect(() => {
         setLoading(true)
@@ -59,11 +71,6 @@ const BattlesSearch = () => {
         //eslint-disable-next-line
     }, [largeOnly, activePage])
 
-    useInterval(() => {
-        console.log('updating')
-        getData()
-    }, 60000)
-
     const renderLoader = () => {
         return (
             <Panel style={{ padding: "4rem", textAlign: 'center', backgroundColor: "#0f131a" }}>
@@ -71,7 +78,6 @@ const BattlesSearch = () => {
             </Panel>
         )
     }
-
 
     return (
         <div style={{
@@ -85,8 +91,13 @@ const BattlesSearch = () => {
                 <title>Albion Battle Reports</title>
             </Helmet>
             <Col style={{ height: "5vh" }} smHidden />
+            <div style={{
+                // textAlign: 'center'
+            }}>
+                <h1>ALBION BATTLES</h1>
+            </div>
             <p style={{
-                textAlign: 'center',
+                // textAlign: 'center',
                 marginBottom: "1rem",
                 fontSize: "1.3rem",
                 fontWeight: "bold",
@@ -94,20 +105,23 @@ const BattlesSearch = () => {
             <InputGroup size="lg" inside style={{ marginBottom: "2rem" }}>
                 <Input
                     inputRef={inputEl}
-                    onChange={handleInputChange}
+                    // onChange={handleInputChange}
                     onKeyDown={event => {
                         if (event.keyCode === 13) {
-                            console.log('its enter')
-                            getData()
+                            handleSearch()
                         }
                     }}
                     placeholder="Search alliance, guild, or player..."
                 />
-                <InputGroup.Button onClick={getData}>
-                    <Icon icon="search" />
+                <InputGroup.Button loading={searching} onClick={getData}>
+                    {
+                        !searching &&
+                        <Icon icon="search" />
+                    }
                 </InputGroup.Button>
             </InputGroup>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <p style={{color: "#999999"}}>Auto refreshing in {refreshingTimer}</p>
                 <Checkbox
                     onChange={handleLargeOnly}
                     checked={largeOnly}>Exclude small battles</Checkbox>

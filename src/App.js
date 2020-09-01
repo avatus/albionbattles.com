@@ -35,7 +35,7 @@ const App = props => {
                         <div style={{
                             minHeight: "100vh",
                             width: "100%", 
-                            maxWidth: 1400, 
+                            maxWidth: 1600, 
                             marginLeft: "auto",
                             marginRight: "auto",
                         }}>
@@ -49,7 +49,7 @@ const App = props => {
                     </div>
                         <Footer style={{
                             width: "100%", 
-                            maxWidth: 1400, 
+                            maxWidth: 1600, 
                             color: "#666666",
                             padding: 20,
                             margin: 'auto'}}>

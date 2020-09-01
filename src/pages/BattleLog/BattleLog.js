@@ -125,7 +125,8 @@ const BattleLog = props => {
             <div
                 style={{ minHeight: 600 }}
             >
-                <div style={{textAlign: 'right'}}>
+                <h3 style={{paddingLeft: "1rem"}}>BATTLE REPORT</h3>
+                <div style={{textAlign: 'left', paddingLeft: "1rem"}}>
                     <Link to="/">Return to index</Link>
                 </div>
                 <FlexboxGrid>
