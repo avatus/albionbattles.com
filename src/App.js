@@ -27,7 +27,7 @@ const App = props => {
                         width: "100%", 
                         display: 'flex', 
                         backgroundSize: "cover",
-                        backgroundImage: `url(https://res.cloudinary.com/synaptics/image/upload/v1598166800/siNYaTt_Recovered_-01_qgzzeg.jpg)`,
+                        backgroundImage: `url(https://res.cloudinary.com/synaptics/image/upload/v1598945915/rsz_sinyatt_recovered_-01_qgzzeg_fvvwjt.jpg)`,
                         backgroundAttachment: 'fixed',
                         padding: 0
                     }}>
