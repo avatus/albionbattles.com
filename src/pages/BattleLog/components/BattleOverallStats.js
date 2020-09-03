@@ -42,7 +42,8 @@ const OverallStats = props => {
                     />
                     <p style={{ color: "#AAA" }}>Start Time:</p>
                 </div>
-                <p style={{ color: "#AAA" }}>{moment(battle.startTime).add(7, 'hours').format('MM-DD: H:mm')}</p>
+                <p style={{ color: "#AAA" }}>{moment.utc(battle.startTime).format('MM-DD: H:mm')}</p>
+
             </div>
             <div style={{
                 display: 'flex',

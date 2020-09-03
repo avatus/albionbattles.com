@@ -25,7 +25,7 @@ const RenderBattle = ({ battle }) => {
     const alliances = battle.alliances.list
     let nameDisplay = formatName(alliances, 3)
     let mobileNameDisplay = formatName(alliances, 2)
-    const dateDispaly = moment(battle.startTime).add(7, 'hours').format('MM-DD: HH:mm')
+    const dateDispaly = moment.utc(battle.startTime).format('MM-DD: HH:mm')
     const mobileDateDisplay = moment(battle.startTime).add(7, 'hours').format('MM-DD')
     return (
         <Link
