@@ -16,6 +16,7 @@
     "lodash": "^4.17.20",
     "moment": "^2.27.0",
     "number-abbreviate": "^2.0.0",
+    "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-flip-move": "^3.0.4",

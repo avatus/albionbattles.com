@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { createRef, useEffect, useState } from 'react'
 import Loader from 'rsuite/lib/Loader'
 import Panel from 'rsuite/lib/Panel'
 import { Link } from 'react-router-dom'
 import Col from 'rsuite/lib/Col'
+import InputGroup from 'rsuite/lib/InputGroup'
+import Input from 'rsuite/lib/Input'
+import Icon from 'rsuite/lib/Icon'
 import Helmet from 'react-helmet'
 import { useSelector, useDispatch } from 'react-redux'
 import FlexboxGrid from 'rsuite/lib/FlexboxGrid'
 import * as ACTIONS from '../../reducers/battleReducer'
 import OverallStats from './components/BattleOverallStats'
+import queryString from 'query-string'
 import moment from 'moment'
 import TotalPlayerStats from './components/TotalPlayerStats'
 import reactga from 'react-ga'
@@ -28,25 +32,28 @@ const formatName = (alliances) => {
     return alliances.join(', ')
 }
 
-const formatDescription = ({alliances, time, kills, players}) => {
+const formatDescription = ({ alliances, time, kills, players }) => {
     const string = `Battle: ${formatName(alliances)} at ${time} - ${players} players and ${kills} kills`
     return string
 }
 
 const BattleLog = props => {
+    const params = queryString.parse(window.location.search)
     const battle = useSelector(ACTIONS.getBattle)
     const [parsingMessage, setParsingMessage] = useState("")
+    const [filter, setFilter] = useState(params.filter ? params.filter : '')
     const loading = useSelector(ACTIONS.getLoadingBattle)
     const error = useSelector(ACTIONS.getError)
     const dispatch = useDispatch()
+    const inputEl = createRef()
     const { id } = props.match.params
 
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setParsingMessage("Parsing battle report...")
-          }, 3000);
-          return () => clearTimeout(timer);
+        }, 3000);
+        return () => clearTimeout(timer);
     }, [])
 
     useEffect(() => {
@@ -58,7 +65,7 @@ const BattleLog = props => {
 
     useEffect(() => {
         reactga.pageview(`/battles/${id}`)
-    },[id])
+    }, [id])
 
     useEffect(() => {
         dispatch(ACTIONS.fetchBattle(id))
@@ -66,6 +73,22 @@ const BattleLog = props => {
             dispatch(ACTIONS.unsetBattle())
         };
     }, [dispatch, id])
+
+    const handleSearch = (clear) => {
+        if (clear === true) {
+            setFilter('')
+            props.history.push({
+                search: ''
+            })
+            inputEl.current.value = ''
+        }
+        if (inputEl && inputEl.current && inputEl.current.value !== '') {
+            setFilter(inputEl.current.value)
+            return props.history.push({
+                search: `?filter=${inputEl.current.value}`
+            })
+        }
+    }
 
     if (error) {
         return (
@@ -105,11 +128,15 @@ const BattleLog = props => {
                         marginTop: "5vh",
                     }}
                 >
-                    <Loader size="sm" content={parsingMessage} vertical/>
+                    <Loader size="sm" content={parsingMessage} vertical />
                 </div>
             </div>
         )
     }
+
+    let alliances = filter !== '' && battle.alliances.alliances.length > 0 ? battle.alliances.alliances.filter(a => a.name.toLowerCase().includes(filter.toLowerCase())) : battle.alliances.alliances
+    let guilds = filter !== '' && battle.guilds.guilds.length > 0 ? battle.guilds.guilds.filter(a => a.alliance.toLowerCase().includes(filter.toLowerCase())) : battle.guilds.guilds
+    let players = filter !== '' && battle.players.players.length > 0 ? battle.players.players.filter(a => a.allianceName.toLowerCase().includes(filter.toLowerCase())) : battle.players.players
 
     return (
         <div>
@@ -125,9 +152,38 @@ const BattleLog = props => {
             <div
                 style={{ minHeight: 600 }}
             >
-                <h3 style={{paddingLeft: "1rem"}}>BATTLE REPORT</h3>
-                <div style={{textAlign: 'left', paddingLeft: "1rem"}}>
-                    <Link to="/">Return to index</Link>
+                <div style={{
+                    paddingLeft: "0.5rem",
+                    paddingRight: "0.5rem",
+                    justifyContent: 'space-between',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    marginBottom: "1rem",
+                }}>
+                    <div>
+                        <h3>BATTLE REPORT</h3>
+                        <div style={{ textAlign: 'left' }}>
+                            <Link to="/">Return to index</Link>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Filter By Alliance</p>
+                        <InputGroup inside>
+                            <Input
+                                defaultValue={params.filter}
+                                inputRef={inputEl}
+                                onKeyDown={event => {
+                                    if (event.keyCode === 13) {
+                                        handleSearch()
+                                    }
+                                }}
+                                placeholder="Type..."
+                            />
+                            <InputGroup.Button appearance="subtle" onClick={() => handleSearch(true)}>
+                                <Icon icon="close" />
+                            </InputGroup.Button>
+                        </InputGroup>
+                    </div>
                 </div>
                 <FlexboxGrid>
                     <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} xs={24}>
@@ -143,21 +199,21 @@ const BattleLog = props => {
                         <TotalFameStats />
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
-                {<BattleMVPs battle={battle} />} 
+                {<BattleMVPs battle={battle} />}
                 <FlexboxGrid>
                     <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} xs={24}>
                         <AllianceTable
-                            alliances={battle.alliances.alliances}
+                            alliances={alliances}
                         />
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={12} xs={24}>
                         <GuildTable
-                            guilds={battle.guilds.guilds}
+                            guilds={guilds}
                         />
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} xs={24}>
                         <PlayerTable
-                            players={battle.players.players}
+                            players={players}
                         />
                     </FlexboxGrid.Item>
                 </FlexboxGrid>
