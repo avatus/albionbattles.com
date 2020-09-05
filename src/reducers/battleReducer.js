@@ -5,10 +5,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 export const fetchBattle = createAsyncThunk('build/fetchBattle', async (id, { rejectWithValue }) => {
     try {
         const { data } = await axios.get(`${ROOT_URL}/battles/${id}`)
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+        return data
+    } catch (err) {
+        return rejectWithValue(err.response.data)
+    }
+})
+
+export const fetchMultiLog = createAsyncThunk('build/fetchMultiLog', async (ids, { rejectWithValue }) => {
+    try {
+        const { data } = await axios.get(`${ROOT_URL}/battles/multilog/${ids}`)
         return data
     } catch (err) {
         return rejectWithValue(err.response.data)
@@ -38,6 +43,15 @@ const slice = createSlice({
             state.battle = null
             state.loading = false
             state.error = "The battle could not be found. It is either too old or has not yet been parsed by the system."
+        },
+        [fetchMultiLog.fulfilled]: (state, action) => {
+            state.battle = action.payload
+            state.loading = false
+        },
+        [fetchMultiLog.rejected]: (state, action) => {
+            state.battle = null
+            state.loading = false
+            state.error = "The battles could not be parsed."
         },
     }
 });

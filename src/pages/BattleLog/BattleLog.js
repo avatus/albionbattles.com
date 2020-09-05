@@ -39,6 +39,7 @@ const formatDescription = ({ alliances, time, kills, players }) => {
 
 const BattleLog = props => {
     const params = queryString.parse(window.location.search)
+    const { ids } = params
     const battle = useSelector(ACTIONS.getBattle)
     const [parsingMessage, setParsingMessage] = useState("")
     const [filter, setFilter] = useState(params.filter ? params.filter : '')
@@ -57,10 +58,6 @@ const BattleLog = props => {
     }, [])
 
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
     }, [])
 
     useEffect(() => {
@@ -68,26 +65,63 @@ const BattleLog = props => {
     }, [id])
 
     useEffect(() => {
-        dispatch(ACTIONS.fetchBattle(id))
-        return function cleanup() {
-            dispatch(ACTIONS.unsetBattle())
-        };
-    }, [dispatch, id])
+        if (props.match.path !== '/multilog') {
+            dispatch(ACTIONS.fetchBattle(id))
+            return function cleanup() {
+                dispatch(ACTIONS.unsetBattle())
+            };
+        }
+    }, [dispatch, id, props.match.path])
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    },[battle])
+
+    useEffect(() => {
+        if (props.match.path === '/multilog') {
+            dispatch(ACTIONS.fetchMultiLog(ids))
+                return function cleanup() {
+                dispatch(ACTIONS.unsetBattle())
+            };
+        }
+    }, [dispatch, props.match.path, ids])
 
     const handleSearch = (clear) => {
-        if (clear === true) {
+        if (clear === true || inputEl.current.value === '') {
             setFilter('')
-            props.history.push({
-                search: ''
-            })
+            let newParams = queryString.parse(window.location.search)
+            delete newParams.filter
             inputEl.current.value = ''
+            props.history.replace({
+                search: queryString.stringify(newParams)
+            })
         }
         if (inputEl && inputEl.current && inputEl.current.value !== '') {
             setFilter(inputEl.current.value)
-            return props.history.push({
-                search: `?filter=${inputEl.current.value}`
+            let newParams = queryString.parse(window.location.search)
+            newParams.filter = inputEl.current.value
+            props.history.replace({
+                search: queryString.stringify(newParams)
             })
         }
+        // if (inputEl && inputEl.current && inputEl.current.value === '') {
+        //     setFilter('')
+        //     let newParams = queryString.parse(window.location.search)
+        //     newParams.filter = inputEl.current.value
+        //     props.history.replace({
+        //         search: queryString.stringify(newParams)
+        //     })
+        // }
+        // if (inputEl && inputEl.current && inputEl.current.value === '') {
+        //     setFilter(inputEl.current.value)
+        //     return props.history.replace({
+        //         search: ''
+        //     })
+        // }
+
     }
 
     if (error) {
@@ -141,7 +175,13 @@ const BattleLog = props => {
     return (
         <div>
             <Helmet>
-                <title>{`Battle Report - ${battle.id}`}</title>
+                {
+                    props.match.path === '/multilog' ?
+                    <title>{`MultiLog Report - ${ids}`}</title>
+                    : 
+                    <title>{`Battle Report - ${battle.id}`}</title>
+
+                }
                 <meta name="description" content={`${formatDescription({
                     alliances: battle.alliances.list,
                     kills: battle.totalKills,
@@ -161,7 +201,12 @@ const BattleLog = props => {
                     marginBottom: "1rem",
                 }}>
                     <div>
-                        <h3>BATTLE REPORT</h3>
+                        {
+                            props.match.path === '/multilog' ?
+                            <h3>MULTILOG REPORT</h3>
+                            :
+                            <h3>BATTLE REPORT</h3>
+                        }
                         <div style={{ textAlign: 'left' }}>
                             <Link to="/">Return to index</Link>
                         </div>
@@ -187,7 +232,7 @@ const BattleLog = props => {
                 </div>
                 <FlexboxGrid>
                     <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} xs={24}>
-                        <OverallStats />
+                        <OverallStats match={props.match} ids={ids || []} />
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item style={{ marginBottom: "1rem" }} componentClass={Col} lg={6} md={12} xs={24}>
                         <TotalPlayerStats />

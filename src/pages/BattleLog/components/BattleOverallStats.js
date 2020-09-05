@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import Panel from 'rsuite/lib/Panel'
+import { Link } from 'react-router-dom'
 import { formatDistance } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSkull, faUsers, faClock, faCrown, faHourglassHalf } from '@fortawesome/free-solid-svg-icons'
@@ -15,50 +16,76 @@ const intToString = (value, prec) => {
 const OverallStats = props => {
     const battle = useSelector(ACTIONS.getBattle)
     const { players } = battle.players
-    return (
-        <Panel
-            header={<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    const renderBattleHeader = () => {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <p>Battle Report</p>
                 <a
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ color: "#8561c5" }}
                     href={`https://albiononline.com/en/killboard/battles/${battle.id}`}>{battle.id}</a>
-            </div>}
+            </div>
+        )
+    }
+
+    const bat = (id) => {
+        return (
+            <Link key={id} to={`/battles/${id}`} style={{marginRight: "0.5rem", textDecoration: 'none', color: "#8561c5"}}>{id}</Link>
+        )
+    }
+
+    const renderMultiHeader = () => {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <p>Combined report for battles: {props.ids.split(',').map(bat)}</p>
+            </div>
+        )
+    }
+
+    return (
+        <Panel
+            header={props.match.path !== '/multilog' ? renderBattleHeader() : renderMultiHeader()}
             style={{
-                minHeight: 172,
+                minHeight: 190,
                 backgroundColor: "#0f131a",
             }}
         >
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <FontAwesomeIcon
-                        style={{ minWidth: 25, marginRight: '0.3rem' }}
-                        icon={faClock}
-                    />
-                    <p style={{ color: "#AAA" }}>Start Time:</p>
-                </div>
-                <p style={{ color: "#AAA" }}>{moment.utc(battle.startTime).format('MM-DD: H:mm')}</p>
+            {
+                props.match.path !== '/multilog' &&
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <FontAwesomeIcon
+                            style={{ minWidth: 25, marginRight: '0.3rem' }}
+                            icon={faClock}
+                        />
+                        <p style={{ color: "#AAA" }}>Start Time:</p>
+                    </div>
+                    <p style={{ color: "#AAA" }}>{moment.utc(battle.startTime).format('MM-DD: H:mm')}</p>
 
-            </div>
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <FontAwesomeIcon
-                        style={{ minWidth: 25, color: "rgb(133, 97, 197)", marginRight: '0.3rem' }}
-                        icon={faHourglassHalf}
-                    />
-                    <p style={{ color: "#AAA" }}>Duration:</p>
                 </div>
-                <p style={{ color: "#AAA" }}>{formatDistance(new Date(battle.endTime), new Date(battle.startTime))}</p>
-            </div>
+            }
+            {
+                props.match.path !== '/multilog' &&
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <FontAwesomeIcon
+                            style={{ minWidth: 25, color: "rgb(133, 97, 197)", marginRight: '0.3rem' }}
+                            icon={faHourglassHalf}
+                        />
+                        <p style={{ color: "#AAA" }}>Duration:</p>
+                    </div>
+                    <p style={{ color: "#AAA" }}>{formatDistance(new Date(battle.endTime), new Date(battle.startTime))}</p>
+                </div>
+            }
             <div style={{
                 display: 'flex',
                 alignItems: 'center',

@@ -4,24 +4,33 @@ const slice = createSlice({
     name: 'ui',
     initialState: {
         expanded: true,
-        searchTerm: null
+        multi: false,
+        multiIdList: []
     },
     reducers: {
-        setSearch: (state, action) => {
-            state.searchTerm = action.payload
+        setMulti: (state, action) => {
+            state.multi = action.payload
         },
         setExpanded: (state, action) => {
             state.expanded = action.payload
         },
+        setMultiIdList: (state, action) => {
+            state.multiIdList.includes(action.payload)
+            ? state.multiIdList = state.multiIdList.filter(i => i !== action.payload)
+            : state.multiIdList = state.multiIdList.concat([action.payload])
+        }
     }
 });
 
 export default slice.reducer
 
 export const getExpanded = state => state.expanded
-export const getSearchTerm = state => state.searchTerm
+export const getMulti = state => state.ui.multi
+export const getMultiIdList = state => state.ui.multiIdList
 
 export const {
     setExpanded,
+    setMulti,
     setSearch,
+    setMultiIdList,
 } = slice.actions

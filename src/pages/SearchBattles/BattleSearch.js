@@ -1,5 +1,7 @@
 import React, { useState, useEffect, createRef } from 'react'
 import Helmet from 'react-helmet'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import useInterval from '@use-it/interval';
 import axios from 'axios'
 import Icon from 'rsuite/lib/Icon'
@@ -7,14 +9,19 @@ import Panel from 'rsuite/lib/Panel'
 import reactga from 'react-ga'
 import { ROOT_URL } from '../../utils/constants'
 import FlexboxGrid from 'rsuite/lib/FlexboxGrid'
+import Button from 'rsuite/lib/Button'
 import Loader from 'rsuite/lib/Loader'
 import Checkbox from 'rsuite/lib/Checkbox'
 import Input from 'rsuite/lib/Input'
 import Col from 'rsuite/lib/Col'
 import InputGroup from 'rsuite/lib/InputGroup'
+import * as ACTIONS from '../../reducers/interfaceReducer'
 import BattleList from './BattleList'
 
 const BattlesSearch = () => {
+    const dispatch = useDispatch()
+    const multi = useSelector(ACTIONS.getMulti)
+    const multiIds = useSelector(ACTIONS.getMultiIdList)
     const [loading, setLoading] = useState(true)
     const inputEl = createRef()
     const [battles, setBattles] = useState([])
@@ -83,7 +90,7 @@ const BattlesSearch = () => {
         <div style={{
             width: "100%",
             maxWidth: 900,
-            // padding: "1rem",
+            padding: "1rem",
             margin: "auto",
             marginBottom: "5vh",
         }}>
@@ -102,10 +109,10 @@ const BattlesSearch = () => {
                 fontSize: "1.3rem",
                 fontWeight: "bold",
             }}>SEARCH BATTLES</p>
-            <InputGroup size="lg" inside style={{ marginBottom: "2rem" }}>
+            <p style={{color: "#999999", marginTop: "0.5rem", textAlign:'right'}}>Auto refreshing in {refreshingTimer}</p>
+            <InputGroup size="lg" inside >
                 <Input
                     inputRef={inputEl}
-                    // onChange={handleInputChange}
                     onKeyDown={event => {
                         if (event.keyCode === 13) {
                             handleSearch()
@@ -120,18 +127,43 @@ const BattlesSearch = () => {
                     }
                 </InputGroup.Button>
             </InputGroup>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <p style={{color: "#999999"}}>Auto refreshing in {refreshingTimer}</p>
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: "1rem"}}>
+                {
+                    multi &&
+                    <Button 
+                        disabled={multiIds.length < 2}
+                        componentClass={multiIds.length > 1 ? Link : 'div'} 
+                        to={`/multilog?ids=${multiIds.join(',')}`} 
+                        appearance="primary" 
+                        size="xs"
+                    >View Multi</Button>
+                }
+                <Checkbox
+                    style={{marginLeft: "auto"}}
+                    onChange={(_, checked) => dispatch(ACTIONS.setMulti(checked))}
+                    checked={multi}>Multi Mode</Checkbox>
                 <Checkbox
                     onChange={handleLargeOnly}
                     checked={largeOnly}>Exclude small battles</Checkbox>
             </div>
+            {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{display: 'flex'}}>
+                    <div style={{display: 'flex'}}>
+                    </div>
+                </div>
+            </div> */}
             <div style={{ backgroundColor: "#0f131a", marginBottom: "1rem", padding: '0.5rem' }}>
                 <FlexboxGrid style={{ color: "#AAAAAA" }}>
+                    {
+                        multi &&
+                    <FlexboxGrid.Item componentClass={Col} md={1} xs={1}>
+                        <p></p>
+                    </FlexboxGrid.Item>
+                    }
                     <FlexboxGrid.Item componentClass={Col} md={3} xs={4}>
                         <p>Date</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={10} xs={11}>
+                    <FlexboxGrid.Item componentClass={Col} md={multi ? 9 : 10} xs={multi ? 10 : 11}>
                         <p>Alliances</p>
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item componentClass={Col} md={3} sm={3} xs={3}>

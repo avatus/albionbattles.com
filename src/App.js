@@ -29,12 +29,12 @@ const App = props => {
                         backgroundSize: "cover",
                         backgroundImage: `url(https://res.cloudinary.com/synaptics/image/upload/v1598945915/rsz_sinyatt_recovered_-01_qgzzeg_fvvwjt.jpg)`,
                         // background: '#444444',
-                        backgroundAttachment: 'fixed',
+                        // backgroundAttachment: 'fixed',
                         padding: 0
                     }}>
                         {/* <SideNavigation /> */}
                         <div style={{
-                            minHeight: "100vh",
+                            minHeight: "calc(100vh - 80px)",
                             width: "100%", 
                             maxWidth: 1600, 
                             marginLeft: "auto",
@@ -44,6 +44,7 @@ const App = props => {
                                 {/* <Route exact path="/" component={Home} /> */}
                                 <Route exact path="/battles" component={BattleSearch} />
                                 <Route exact path="/battles/:id" component={BattleLog} />
+                                <Route exact path="/multilog" component={BattleLog} />
                                 <Redirect to="/battles" />
                             </Switch>
                         </div>
