@@ -65,7 +65,7 @@ const BattlesSearch = () => {
     }
 
     useEffect(() => {
-        reactga.pageview('/battles')
+        reactga.pageview('/')
     }, [])
 
     useEffect(() => {

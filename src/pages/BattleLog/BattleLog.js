@@ -144,7 +144,7 @@ const BattleLog = props => {
                         color: "#34c3ff",
                         textDecoration: 'none',
                     }}
-                    to="/battles" >Return to Battle Index</Link>
+                    to="/" >Return to Battle Index</Link>
             </Panel>
         )
     }

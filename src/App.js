@@ -42,10 +42,10 @@ const App = props => {
                         }}>
                             <Switch>
                                 {/* <Route exact path="/" component={Home} /> */}
-                                <Route exact path="/battles" component={BattleSearch} />
+                                <Route exact path="/" component={BattleSearch} />
                                 <Route exact path="/battles/:id" component={BattleLog} />
                                 <Route exact path="/multilog" component={BattleLog} />
-                                <Redirect to="/battles" />
+                                <Redirect to="/" />
                             </Switch>
                         </div>
                     </div>
