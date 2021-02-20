@@ -132,7 +132,6 @@ const GuildTable = ({ guilds: g }) => {
                         </p>
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item componentClass={Col} md={3} xs={4} sm={4}>
-
                         <p style={{ textAlign: "right", paddingRight: 15, color: topFame ? "#29e09d" : null }}>
                             {intToString(guild.killFame)}
                         </p>
@@ -184,11 +183,11 @@ const GuildTable = ({ guilds: g }) => {
                     <FlexboxGrid.Item componentClass={Col} md={3} xs={5} sm={5}>
                         {renderSortHeader('Players', 'totalPlayers', 'flex-end')}
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3} xs={5} sm={5}>
-                        {renderSortHeader('Deaths', 'deaths', 'flex-end')}
-                    </FlexboxGrid.Item>
                     <FlexboxGrid.Item componentClass={Col} md={3} xs={4} sm={4}>
                         {renderSortHeader('Kills', 'kills', 'flex-end')}
+                    </FlexboxGrid.Item>
+                    <FlexboxGrid.Item componentClass={Col} md={3} xs={5} sm={5}>
+                        {renderSortHeader('Deaths', 'deaths', 'flex-end')}
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item componentClass={Col} md={3} xs={4} sm={4}>
                         {renderSortHeader('Fame', 'killFame', 'flex-end')}
