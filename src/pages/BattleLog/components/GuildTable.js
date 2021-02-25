@@ -123,13 +123,13 @@ const GuildTable = ({ guilds: g }) => {
                     <FlexboxGrid.Item componentClass={Col} md={3} xs={5} sm={5}>
                         <p style={{ textAlign: "right", paddingRight: 15 }}>{guild.totalPlayers}</p>
                     </FlexboxGrid.Item>
-                    <FlexboxGrid.Item componentClass={Col} md={3} xs={5} sm={5}>
-                        <p style={{ textAlign: "right", paddingRight: 15 }}>{guild.deaths}</p>
-                    </FlexboxGrid.Item>
                     <FlexboxGrid.Item componentClass={Col} md={3} xs={4} sm={4}>
                         <p style={{ textAlign: "right", paddingRight: 15, color: topKills ? "rgb(224, 41, 131)" : null }}>
                             {guild.kills}
                         </p>
+                    </FlexboxGrid.Item>
+                    <FlexboxGrid.Item componentClass={Col} md={3} xs={5} sm={5}>
+                        <p style={{ textAlign: "right", paddingRight: 15 }}>{guild.deaths}</p>
                     </FlexboxGrid.Item>
                     <FlexboxGrid.Item componentClass={Col} md={3} xs={4} sm={4}>
                         <p style={{ textAlign: "right", paddingRight: 15, color: topFame ? "#29e09d" : null }}>
