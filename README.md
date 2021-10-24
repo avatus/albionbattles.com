@@ -1,5 +1,3 @@
+I have handed this project off to a friend and this repo is no longer maintained nor connected to the offical albionbattles.com website anymore. I'm keeping here just for historical purposes because it was a fun project for me.
+
 https://www.albionbattles.com/
-
-Please submit any issues to the issue tracker. Pull requests welcome.
-
-New feature: Multimode. You can now select any number of battles and view a combined report. This is helpful for reset days when your guild/alliance are fighting multiple battles across albion! Also, filterable (and shareable) by Alliance name.
