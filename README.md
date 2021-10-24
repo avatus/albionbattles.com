@@ -1,3 +1,3 @@
-I have handed this project off to a friend and this repo is no longer maintained nor connected to the offical albionbattles.com website anymore. I'm keeping here just for historical purposes because it was a fun project for me.
+This project has been archived. The domain has been passed to a friend who will maintain, but I am no longer involved with the project. 
 
 https://www.albionbattles.com/
